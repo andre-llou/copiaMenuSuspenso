@@ -1,0 +1,28 @@
+function copiarMenuSuspensoDeParaColuna() {
+  const planilha = SpreadsheetApp.getActiveSpreadsheet();
+  const aba = planilha.getActiveSheet();
+  const celula = aba.getRange("A4"); // Localização do menu
+
+  const regra = celula.getDataValidation();
+  if (!regra) {
+    SpreadsheetApp.getUi().alert("A célula A4 não tem menu suspenso.");
+    return;
+  }
+
+  const criterio = regra.getCriteriaType();
+  const valores = regra.getCriteriaValues();
+
+  if (criterio === SpreadsheetApp.DataValidationCriteria.VALUE_IN_LIST) {
+    const lista = valores[0];
+    if (!lista || lista.length === 0) {
+      SpreadsheetApp.getUi().alert("O menu suspenso em A4 está vazio.");
+      return;
+    }
+
+    const destino = aba.getRange(1, 2, lista.length, 1); // Coluna B a partir da linha 1
+    const matriz = lista.map(item => [item]); // Converte para matriz de 1 coluna
+    destino.setValues(matriz);
+  } else {
+    SpreadsheetApp.getUi().alert("O menu suspenso em A4 não é do tipo 'lista fixa'.");
+  }
+}
