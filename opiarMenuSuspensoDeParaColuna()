@@ -5,7 +5,7 @@ function copiarMenuSuspensoDeParaColuna() {
 
   const regra = celula.getDataValidation();
   if (!regra) {
-    SpreadsheetApp.getUi().alert("A célula A4 não tem menu suspenso.");
+    SpreadsheetApp.getUi().alert("A célula não tem menu suspenso.");
     return;
   }
 
@@ -15,14 +15,14 @@ function copiarMenuSuspensoDeParaColuna() {
   if (criterio === SpreadsheetApp.DataValidationCriteria.VALUE_IN_LIST) {
     const lista = valores[0];
     if (!lista || lista.length === 0) {
-      SpreadsheetApp.getUi().alert("O menu suspenso em A4 está vazio.");
+      SpreadsheetApp.getUi().alert("O menu suspenso está vazio.");
       return;
     }
 
-    const destino = aba.getRange(1, 2, lista.length, 1); // Coluna B a partir da linha 1
+    const destino = aba.getRange(1, 2, lista.length, 1); // O primeiro número representa a Linha e o segundo a Coluna
     const matriz = lista.map(item => [item]); // Converte para matriz de 1 coluna
     destino.setValues(matriz);
   } else {
-    SpreadsheetApp.getUi().alert("O menu suspenso em A4 não é do tipo 'lista fixa'.");
+    SpreadsheetApp.getUi().alert("O menu suspenso não é do tipo 'lista fixa'.");
   }
 }
